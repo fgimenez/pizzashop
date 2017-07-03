@@ -1,0 +1,10 @@
+replicaCount: 1
+image:
+  repository: quay.io/fgimenez/docker-pizzashop
+  tag: latest
+  pullPolicy: IfNotPresent
+service:
+  name:  pizzashop
+  type: ClusterIP
+  externalPort: 8080
+  internalPort: 8080
