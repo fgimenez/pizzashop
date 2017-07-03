@@ -6,9 +6,10 @@ import (
 )
 
 func main() {
+	port := "8080"
 	fs := http.FileServer(http.Dir("public"))
 	http.Handle("/", fs)
 
-	log.Println("Listening...")
-	http.ListenAndServe(":8080", nil)
+	log.Println("Listening on ", port)
+	http.ListenAndServe(":"+port, nil)
 }
