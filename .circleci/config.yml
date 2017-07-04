@@ -14,7 +14,7 @@ jobs:
             - run:
                 name: download-architect
                 command: |
-                    apt update && apt install -y --no-install-recommends ca-certificates wget curl git
+                    sudo apt update && sudo apt install -y --no-install-recommends ca-certificates wget curl git
                     wget $(curl -sS https://api.github.com/repos/giantswarm/architect/releases/latest | grep browser_download_url | head -n 1 | cut -d '"' -f 4) -O /tmp/tacoshop/bin/architect
                     chmod +x /tmp/tacoshop/bin/architect
                     /tmp/tacoshop/bin/architect version
@@ -27,7 +27,7 @@ jobs:
         <<: *defaults
         steps:
             - checkout
-            - run: "apt update && apt install -y --no-install-recommends ca-certificates git"
+            - run: "sudo apt update && sudo apt install -y --no-install-recommends ca-certificates git"
             - attach_workspace:
                 at: /tmp/tacoshop/bin
             - run:
@@ -37,7 +37,7 @@ jobs:
         <<: *defaults
         steps:
             - checkout
-            - run: "apt update && apt install -y --no-install-recommends ca-certificates git"
+            - run: "sudo apt update && sudo apt install -y --no-install-recommends ca-certificates git"
             - attach_workspace:
                 at: /tmp/tacoshop/bin
             - run:
