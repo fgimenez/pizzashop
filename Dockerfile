@@ -9,6 +9,6 @@ WORKDIR /go/src/github.com/fgimenez/pizzashop
 
 RUN go install github.com/fgimenez/pizzashop
 
-ENTRYPOINT /go/bin/pizzashop
+ENTRYPOINT ["/go/bin/pizzashop"]
 
 EXPOSE 8080
