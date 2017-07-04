@@ -1,7 +1,7 @@
 version: 2
 jobs:
     install_dependencies:
-        working_directory: ~/tacoshop
+        working_directory: /tmp/tacoshop
         docker:
             - image: ubuntu
         steps:
@@ -11,36 +11,36 @@ jobs:
                 name: download-architect
                 command: |
                     apt update && apt install -y --no-install-recommends ca-certificates wget curl git
-                    wget $(curl -sS https://api.github.com/repos/giantswarm/architect/releases/latest | grep browser_download_url | head -n 1 | cut -d '"' -f 4) -O ~/tacoshop/bin/architect
+                    wget $(curl -sS https://api.github.com/repos/giantswarm/architect/releases/latest | grep browser_download_url | head -n 1 | cut -d '"' -f 4) -O bin/architect
                     chmod +x ~/tacoshop/bin/architect
-                    ~/tacoshop/bin/architect version
+                    /tmp/tacoshop/bin/architect version
             - persist_to_workspace:
                 root: bin
                 paths:
                     - architect
 
     build:
-        working_directory: ~/tacoshop
+        working_directory: /tmp/tacoshop
         docker:
             - image: ubuntu
         steps:
             - attach_workspace:
-                at: ~/tacoshop/bin
+                at: /tmp/tacoshop/bin
             - run:
                 command: |
                     apt update && apt install -y --no-install-recommends ca-certificates git
-                    ~/tacoshop/bin/architect --organisation=fgimenez build
+                    /tmp/tacoshop/bin/architect --organisation=fgimenez build
     deploy:
-        working_directory: ~/tacoshop
+        working_directory: /tmp/tacoshop
         docker:
             - image: ubuntu
         steps:
             - attach_workspace:
-                at: ~/tacoshop/bin
+                at: /tmp/tacoshop/bin
             - run:
                 command: |
                     apt update && apt install -y --no-install-recommends ca-certificates git
-                    ~/tacoshop/bin/architect --organisation=fgimenez deploy
+                    /tmp/tacoshop/bin/architect --organisation=fgimenez deploy
 
 workflows:
     version: 2
