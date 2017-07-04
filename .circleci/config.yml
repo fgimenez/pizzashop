@@ -6,7 +6,9 @@ jobs:
             - image: ubuntu
         steps:
             - persist_to_workspace:
-                paths: ~/tacoshop/bin
+                root: ~/tacoshop/bin
+                paths:
+                    - architect
             - checkout
             - run:
                 name: download-architect
