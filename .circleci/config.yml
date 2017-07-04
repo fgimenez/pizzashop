@@ -17,10 +17,16 @@ jobs:
                     chmod +x ./architect
                     architect version
     build:
+        working_directory: ~/tacoshop
+        docker:
+            - image: ubuntu
         steps:
             - run:
                 command: ./architect --organisation=fgimenez build
     deploy:
+        working_directory: ~/tacoshop
+        docker:
+            - image: ubuntu
         steps:
             - run:
                 command: ./architect --organisation=fgimenez deploy
