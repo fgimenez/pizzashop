@@ -5,7 +5,8 @@ jobs:
         docker:
             - image: ubuntu
         steps:
-            - persist_to_workspace: ~/tacoshop/bin
+            - persist_to_workspace:
+                paths: ~/tacoshop/bin
             - checkout
             - run:
                 name: download-architect
