@@ -5,28 +5,37 @@ jobs:
         docker:
             - image: ubuntu
         steps:
+            - persist_to_workspace: ~/tacoshop/bin
             - checkout
             - run:
                 name: download-architect
                 command: |
                     apt update && apt install -y --no-install-recommends ca-certificates wget curl git
-                    wget $(curl -sS https://api.github.com/repos/giantswarm/architect/releases/latest | grep browser_download_url | head -n 1 | cut -d '"' -f 4)
-                    chmod +x ~/tacoshop/architect
-                    ~/tacoshop/architect version
+                    wget $(curl -sS https://api.github.com/repos/giantswarm/architect/releases/latest | grep browser_download_url | head -n 1 | cut -d '"' -f 4) -O ~/tacoshop/bin/architect
+                    chmod +x ~/tacoshop/bin/architect
+                    ~/tacoshop/bin/architect version
     build:
         working_directory: ~/tacoshop
         docker:
             - image: ubuntu
         steps:
+            - attach_workspace:
+                at: ~/tacoshop/bin
             - run:
-                command: ./architect --organisation=fgimenez build
+                command: |
+                    apt update && apt install -y --no-install-recommends ca-certificates git
+                    ~/tacoshop/bin/architect --organisation=fgimenez build
     deploy:
         working_directory: ~/tacoshop
         docker:
             - image: ubuntu
         steps:
+            - attach_workspace:
+                at: ~/tacoshop/bin
             - run:
-                command: ./architect --organisation=fgimenez deploy
+                command: |
+                    apt update && apt install -y --no-install-recommends ca-certificates git
+                    ~/tacoshop/bin/architect --organisation=fgimenez deploy
 
 workflows:
     version: 2
