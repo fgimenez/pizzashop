@@ -1,28 +1,31 @@
+defaults: &defaults
+    working_directory: /tmp/tacoshop
+    docker:
+        - image: ubuntu
+
 version: 2
 jobs:
     install_dependencies:
-        working_directory: /tmp/tacoshop
+        <<: *defaults
         docker:
             - image: ubuntu
         steps:
             - checkout
-            - run: mkdir -p bin
+            - run: mkdir -p /tmp/tacoshop/bin
             - run:
                 name: download-architect
                 command: |
                     apt update && apt install -y --no-install-recommends ca-certificates wget curl git
-                    wget $(curl -sS https://api.github.com/repos/giantswarm/architect/releases/latest | grep browser_download_url | head -n 1 | cut -d '"' -f 4) -O bin/architect
+                    wget $(curl -sS https://api.github.com/repos/giantswarm/architect/releases/latest | grep browser_download_url | head -n 1 | cut -d '"' -f 4) -O /tmp/tacoshop/bin/architect
                     chmod +x ~/tacoshop/bin/architect
                     /tmp/tacoshop/bin/architect version
             - persist_to_workspace:
-                root: bin
+                root: /tmp/tacoshop/bin
                 paths:
                     - architect
 
     build:
-        working_directory: /tmp/tacoshop
-        docker:
-            - image: ubuntu
+        <<: *defaults
         steps:
             - attach_workspace:
                 at: /tmp/tacoshop/bin
@@ -31,9 +34,7 @@ jobs:
                     apt update && apt install -y --no-install-recommends ca-certificates git
                     /tmp/tacoshop/bin/architect --organisation=fgimenez build
     deploy:
-        working_directory: /tmp/tacoshop
-        docker:
-            - image: ubuntu
+        <<: *defaults
         steps:
             - attach_workspace:
                 at: /tmp/tacoshop/bin
