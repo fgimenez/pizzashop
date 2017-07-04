@@ -1,0 +1,38 @@
+version: 2
+jobs:
+    install_dependencies:
+        steps:
+            - checkout
+            - run:
+                name: download-architect
+                command: |
+                    if [ -z $RELEASE_TOKEN ]; then
+                        wget -q $(curl -sS https://api.github.com/repos/giantswarm/architect/releases/latest | grep browser_download_url | head -n 1 | cut -d '"' -f 4)
+                    else
+                        wget -q $(curl -sS -H "Authorization: token $RELEASE_TOKEN" https://api.github.com/repos/giantswarm/architect/releases/latest | grep browser_download_url | head -n 1 | cut -d '"' -f 4)
+                    fi
+                    chmod +x ./architect
+                    architect version
+    build:
+        steps:
+            - run:
+                command: ./architect --organisation=fgimenez build
+    deploy:
+        steps:
+            - run:
+                command: ./architect --organisation=fgimenez deploy
+
+workflows:
+    version: 2
+    build_and_deploy:
+        jobs:
+            - install_dependencies
+            - build:
+                    requires:
+                        - install_dependencies
+            - deploy:
+                    requires:
+                        - build
+                    filters:
+                        branches:
+                            only: master
