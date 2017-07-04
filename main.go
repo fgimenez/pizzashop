@@ -13,6 +13,11 @@ func main() {
 		return
 	}
 
+	if len(os.Args) > 1 && os.Args[1] == "--help" {
+		fmt.Println("Yet another pizzashop")
+		return
+	}
+
 	port := "8080"
 	fs := http.FileServer(http.Dir("public"))
 	http.Handle("/", fs)
