@@ -8,8 +8,6 @@ version: 2
 jobs:
     install_dependencies:
         <<: *defaults
-        docker:
-            - image: ubuntu
         steps:
             - checkout
             - run: mkdir -p /tmp/tacoshop/bin
