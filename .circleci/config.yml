@@ -9,6 +9,7 @@ jobs:
             - run:
                 name: download-architect
                 command: |
+                    set +x
                     apt update && apt install -y wget curl
                     if [ -z $RELEASE_TOKEN ]; then
                         wget -q $(curl -sS https://api.github.com/repos/giantswarm/architect/releases/latest | grep browser_download_url | head -n 1 | cut -d '"' -f 4)
