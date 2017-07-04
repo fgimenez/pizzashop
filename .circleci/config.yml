@@ -3,8 +3,6 @@ defaults: &defaults
         services:
             - docker
     working_directory: /tmp/tacoshop
-    docker:
-        - image: ubuntu
 
 version: 2
 jobs:
