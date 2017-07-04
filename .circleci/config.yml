@@ -27,20 +27,20 @@ jobs:
     build:
         <<: *defaults
         steps:
+            - run: "apt update && apt install -y --no-install-recommends ca-certificates git"
             - attach_workspace:
                 at: /tmp/tacoshop/bin
             - run:
                 command: |
-                    apt update && apt install -y --no-install-recommends ca-certificates git
                     /tmp/tacoshop/bin/architect --organisation=fgimenez build
     deploy:
         <<: *defaults
         steps:
+            - run: "apt update && apt install -y --no-install-recommends ca-certificates git"
             - attach_workspace:
                 at: /tmp/tacoshop/bin
             - run:
                 command: |
-                    apt update && apt install -y --no-install-recommends ca-certificates git
                     /tmp/tacoshop/bin/architect --organisation=fgimenez deploy
 
 workflows:
