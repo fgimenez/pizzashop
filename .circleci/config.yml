@@ -1,6 +1,9 @@
 version: 2
 jobs:
     install_dependencies:
+        working_directory: ~/tacoshop
+        docker:
+            - image: ubuntu
         steps:
             - checkout
             - run:
