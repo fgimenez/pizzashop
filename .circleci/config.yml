@@ -11,8 +11,8 @@ jobs:
                 command: |
                     apt update && apt install -y wget curl
                     wget $(curl -sS https://api.github.com/repos/giantswarm/architect/releases/latest | grep browser_download_url | head -n 1 | cut -d '"' -f 4)
-                    chmod +x ./architect
-                    architect version
+                    chmod +x ~/tacoshop/architect
+                    ~/tacoshop/architect version
     build:
         working_directory: ~/tacoshop
         docker:
