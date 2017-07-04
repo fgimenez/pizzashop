@@ -1,4 +1,7 @@
 defaults: &defaults
+    machine:
+        services:
+            - docker
     working_directory: /tmp/tacoshop
     docker:
         - image: ubuntu
