@@ -6,7 +6,7 @@ jobs:
             - image: ubuntu
         steps:
             - persist_to_workspace:
-                root: ~/tacoshop/bin
+                root: bin
                 paths:
                     - architect
             - checkout
