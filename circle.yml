@@ -19,5 +19,4 @@ deployment:
         branch: master
         commands:
             - ./architect --organisation=fgimenez deploy
-            - |
-                ./cabinboy promote --to alpha --version "$(sed -n 's/version: \(.*\)/\1/p' helm/*/Chart.yaml)"
+            - ./cabinboy promote --to alpha --version $(cat helm/*/Chart.yaml | grep ^version | cut -d ' ' -f 2)
