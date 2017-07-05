@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: tacoshop
-          image: quay.com/fgimenez/tacoshop:{{ .SHA }}
+          image: quay.io/fgimenez/tacoshop:{{ .SHA }}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
