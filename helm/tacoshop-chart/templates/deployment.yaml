@@ -1,31 +1,27 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "fullname" . }}
+  name: tacoshop
   labels:
-    app: {{ template "name" . }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app: tacoshop
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   template:
     metadata:
       labels:
-        app: {{ template "name" . }}
-        release: {{ .Release.Name }}
+        app: tacoshop
     spec:
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: tacoshop
+          image: quay.com/fgimenez/tacoshop:{{ .SHA }}
+          imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: {{ .Values.service.internalPort }}
+            - containerPort: 8080
           livenessProbe:
             httpGet:
-              path: /
-              port: {{ .Values.service.internalPort }}
+              path: /home.thml
+              port: 8080
           readinessProbe:
             httpGet:
-              path: /
-              port: {{ .Values.service.internalPort }}
+              path: /home.html
+              port: 8080
