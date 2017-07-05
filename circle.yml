@@ -7,6 +7,8 @@ dependencies:
         - wget -q $(curl -sS https://api.github.com/repos/giantswarm/architect/releases/latest | grep browser_download_url | head -n 1 | cut -d '"' -f 4)
         - chmod +x ./architect
         - ./architect version
+        - wget -q $(curl -sS https://api.github.com/repos/fgimenez/cabinboy/releases/latest | grep browser_download_url | head -n 1 | cut -d '"' -f 4)
+        - chmod +x ./cabinboy
 
 test:
     override:
@@ -17,3 +19,5 @@ deployment:
         branch: master
         commands:
             - ./architect --organisation=fgimenez deploy
+            - chart_version=$(sed -n 's|version: \(.*\)|\1|p' helm/tacoshop-chart/Chart.yaml)
+            - ./cabinboy promote -to alpha -version "$chart_version"
