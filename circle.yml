@@ -19,4 +19,5 @@ deployment:
         branch: master
         commands:
             - ./architect --organisation=fgimenez deploy
-            - ./cabinboy promote -to alpha -version $(sed -n 's/version: \(.*\)/\1/p' helm/tacoshop-chart/Chart.yaml)
+            - chart_version=$(sed -n 's/version\:\ \(.*\)/\1/p' helm/tacoshop-chart/Chart.yaml)
+            - ./cabinboy promote -to alpha -version "$chart_version"
