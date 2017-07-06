@@ -1,4 +1,4 @@
 apiVersion: v1
 description: Tacoshop helm chart
 name: tacoshop-chart
-version: 0.1.6
+version: 0.1.7
